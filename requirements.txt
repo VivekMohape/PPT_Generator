@@ -4,3 +4,4 @@ pydantic
 pdfplumber
 streamlit
 retrying
+instructor
