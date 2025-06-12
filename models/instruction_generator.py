@@ -1,16 +1,17 @@
+
 import openai
 import json
 from models.schemas import PresentationPlan, SlideContent
 from config import Config
 from retrying import retry
 
-openai.api_key = Config.OPENAI_API_KEY
+client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
 
 SLIDE_TYPES = ["summary_slide", "data_slide", "image_slide", "conclusion_slide"]
 
 @retry(stop_max_attempt_number=Config.MAX_RETRIES, wait_fixed=1000)
 def call_openai(system_prompt, raw_text):
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=Config.MODEL,
         messages=[
             {"role": "system", "content": system_prompt},
